@@ -2,7 +2,9 @@
 import { getMusicBanner, getSongMenuList } from "../../services/music"
 import recommendStore from "../../store/recommendStore"
 import querySelect from "../../utils/query-select"
+import rankingStore, { rankingsMap } from "../../store/rankingStore"
 import { throttle } from 'underscore'
+
 const querySelectThrottle = throttle(querySelect, 100)
 
 Page({
@@ -26,11 +28,15 @@ Page({
     this.fetchSongMenuList()
     // this.fetchRecommendSongs()
     // 监听数据
-    recommendStore.onState("recommendSongs", (value) => {
-      this.setData({ recommendSongs: value.slice(0, 6) })
-    })
+    recommendStore.onState("recommendSongs", this.handleRecommendSongs)
+
+    for (const key in rankingsMap) {
+      rankingStore.onState(key, this.getRankingHanlder(key))
+    }
     // 发起网络请求
     recommendStore.dispatch("fetchRecommendSongsAction")
+    rankingStore.dispatch("fetchRankingDataAction")
+
 
   },
   // 网络请求的方法封装
@@ -66,4 +72,32 @@ Page({
   //   const recommendSongs = playlist.tracks.slice(0, 6)
   //   this.setData({ recommendSongs })
   // },
+
+  // 从store中获取数据
+  handleRecommendSongs(value) {
+    this.setData({ recommendSongs: value.slice(0, 6) })
+  },
+  // handleNewRanking(value) {
+  //   const newRankingInfos = { ...this.data.rankingInfos, newRanking: value }
+  //   this.setData({ rankingInfos: newRankingInfos })
+  // },
+  // handleOriginRanking(value) {
+  //   const newRankingInfos = { ...this.data.rankingInfos, originRanking: value }
+  //   this.setData({ rankingInfos: newRankingInfos })
+  // },
+  // handleUpRanking(value) {
+  //   const newRankingInfos = { ...this.data.rankingInfos, upRanking: value }
+  //   this.setData({ rankingInfos: newRankingInfos })
+  // },
+  getRankingHanlder(ranking) {
+    return value => {
+      const newRankingInfos = { ...this.data.rankingInfos, [ranking]: value }
+      this.setData({ rankingInfos: newRankingInfos })
+    }
+  },
+
+  /**卸载 */
+  onUnload() {
+    recommendStore.offState("recommendSongs", this.handleRecommendSongs)
+  }
 })
