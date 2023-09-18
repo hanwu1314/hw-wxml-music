@@ -9,6 +9,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "歌单详情",
+          "pathName": "pages/detail-menu/detail-menu",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "视频详情",
           "pathName": "pages/detail-video/detail-video",
           "query": "id=14636451",
