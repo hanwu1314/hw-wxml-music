@@ -1,2 +1,10 @@
 <!--pages/main-video/main-video.wxml-->
-<text>pages/main-video/main-video.wxml</text>
+<view class="video-list">
+  <block wx:for="{{videoList}}" wx:key="id">
+    <view>
+      {{ item.id }}
+      <image src="{{item.cover}}" mode="" />
+      <view>{{ item.name }}</view>
+    </view>
+  </block>
+</view>
