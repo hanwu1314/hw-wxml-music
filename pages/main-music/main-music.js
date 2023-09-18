@@ -1,5 +1,6 @@
 // pages/main-music/main-music.js
 import { getMusicBanner, getPlaylistDetail, getSongMenuList } from "../../services/music"
+import recommendStore from "../../store/recommendStore"
 import querySelect from "../../utils/query-select"
 import { throttle } from 'underscore'
 const querySelectThrottle = throttle(querySelect, 100)
@@ -22,7 +23,14 @@ Page({
   },
   onLoad() {
     this.fetchMusicBanner()
-    this.fetchRecommendSongs()
+    // this.fetchRecommendSongs()
+    // 监听数据
+    recommendStore.onState("recommendSongs", (value) => {
+      this.setData({ recommendSongs: value.slice(0, 6) })
+    })
+    // 发起网络请求
+    recommendStore.dispatch("fetchRecommendSongsAction")
+
   },
   // 网络请求的方法封装
   async fetchMusicBanner() {
@@ -43,10 +51,10 @@ Page({
       url: '/pages/detail-song/detail-song?type=recommend',
     })
   },
-  async fetchRecommendSongs() {
-    const res = await getPlaylistDetail(3778678)
-    const playlist = res.playlist
-    const recommendSongs = playlist.tracks.slice(0, 6)
-    this.setData({ recommendSongs })
-  },
+  // async fetchRecommendSongs() {
+  //   const res = await getPlaylistDetail(3778678)
+  //   const playlist = res.playlist
+  //   const recommendSongs = playlist.tracks.slice(0, 6)
+  //   this.setData({ recommendSongs })
+  // },
 })
