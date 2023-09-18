@@ -3,16 +3,18 @@
     "pages/main-music/main-music",
     "pages/main-video/main-video",
     "components/video-item/video-item",
-    "pages/detail-video/detail-video"
+    "pages/detail-video/detail-video",
+    "pages/detail-search/detail-search"
   ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#8d5ec5",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "HWMusic",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "list": [{
+    "list": [
+      {
         "pagePath": "pages/main-music/main-music",
         "text": "音乐",
         "iconPath": "assets/images/tabbar/music_normal.png",

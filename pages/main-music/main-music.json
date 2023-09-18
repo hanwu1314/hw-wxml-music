@@ -1,4 +1,5 @@
 {
-  "navigationBarTitleText": "HWMusic ",
-  "usingComponents": {}
+  "usingComponents": {
+    "van-search": "@vant/weapp/search/index"
+  }
 }
