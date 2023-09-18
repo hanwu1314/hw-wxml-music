@@ -2,11 +2,12 @@
   "pages": [
     "pages/main-music/main-music",
     "pages/main-video/main-video",
-    "components/video-item/video-item"
+    "components/video-item/video-item",
+    "pages/detail-video/detail-video"
   ],
   "window": {
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#8d5ec5",
     "navigationBarTitleText": "Weixin",
     "navigationBarTextStyle": "black"
   },

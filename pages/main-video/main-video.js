@@ -10,6 +10,7 @@ Page({
   onLoad() {
     this.fetchTopMV()
   },
+  // 发送网络请求
   async fetchTopMV() {
     const res = await getTopMV(this.data.offset)
     // 新数据追加
@@ -18,10 +19,12 @@ Page({
     this.data.offset = this.data.videoList.length
     this.data.hasMore = res.hasMore
   },
+  // 上拉加载
   onReachBottom() {
     if (!this.data.hasMore) return
     this.fetchTopMV()
   },
+  // 下拉刷新
   async onPullDownRefresh() {
     // 1.清空之前的数据
     this.setData({ videoList: [] })
@@ -34,4 +37,7 @@ Page({
     // 3.停止下拉刷新
     wx.stopPullDownRefresh()
   },
+  // 事件监听
+
+
 })
