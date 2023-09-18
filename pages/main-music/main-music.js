@@ -1,5 +1,5 @@
 // pages/main-music/main-music.js
-import { getMusicBanner, getPlaylistDetail, getSongMenuList } from "../../services/music"
+import { getMusicBanner, getSongMenuList } from "../../services/music"
 import recommendStore from "../../store/recommendStore"
 import querySelect from "../../utils/query-select"
 import { throttle } from 'underscore'
@@ -23,6 +23,7 @@ Page({
   },
   onLoad() {
     this.fetchMusicBanner()
+    this.fetchSongMenuList()
     // this.fetchRecommendSongs()
     // 监听数据
     recommendStore.onState("recommendSongs", (value) => {
@@ -36,6 +37,14 @@ Page({
   async fetchMusicBanner() {
     const res = await getMusicBanner()
     this.setData({ banners: res.banners })
+  },
+  async fetchSongMenuList() {
+    getSongMenuList().then(res => {
+      this.setData({ hotMenuList: res.playlists })
+    })
+    getSongMenuList("华语").then(res => {
+      this.setData({ recMenuList: res.playlists })
+    })
   },
   // 界面的事件监听方法
   onSearchClick() {
