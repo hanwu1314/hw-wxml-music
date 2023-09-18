@@ -31,8 +31,29 @@ function formatTime(time) {
   return padLeft(minute) + ":" + padLeft(second)
 }
 
+function formatDate(timestamp, format) {
+  format = format || 'mm/dd';
+  var date = getDate(timestamp);
+  var month = (date.getMonth() + 1).toString();
+  var day = date.getDate().toString();
+
+  // 补零
+  if (month.length === 1) {
+    month = '0' + month;
+  }
+  if (day.length === 1) {
+    day = '0' + day;
+  }
+
+  // 替换格式字符串中的占位符
+  return format
+    .replace('mm', month)
+    .replace('dd', day);
+}
+
 // 必须导出后, 才能被其他地方调用: 必须使用CommonJS导出
 module.exports = {
   formatCount: formatCount,
-  formatTime: formatTime
+  formatTime: formatTime,
+  formatDate: formatDate
 }
