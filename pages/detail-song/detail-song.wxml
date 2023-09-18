@@ -1,0 +1,11 @@
+<!--pages/detail-song/detail-song.wxml-->
+<wxs src="/utils/format.wxs" module="fmt"></wxs>
+<view>
+  <text class="title"> {{songInfo.name}}</text>
+  <text class="update">{{fmt.formatDate(songInfo.updateTime,"mm月dd日")}}更新</text>
+</view>
+<view class="song-list">
+  <block wx:for="{{songInfo.tracks}}" wx:key="id">
+    <song-item-v2 itemData="{{item}}" index="{{index + 1}}" />
+  </block>
+</view>
