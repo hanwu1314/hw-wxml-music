@@ -1,5 +1,5 @@
 // pages/main-music/main-music.js
-import { getMusicBanner } from "../../services/music"
+import { getMusicBanner, getPlaylistDetail, getSongMenuList } from "../../services/music"
 import querySelect from "../../utils/query-select"
 import { throttle } from 'underscore'
 const querySelectThrottle = throttle(querySelect, 100)
@@ -10,11 +10,11 @@ Page({
     banners: [],
     bannerHeight: 0,
     screenWidth: 375,
-
+    /**推荐歌曲 */
     recommendSongs: [],
-
-    // 歌单数据
+    /**热门歌单 */
     hotMenuList: [],
+    /**推荐歌单 */
     recMenuList: [],
     // 巅峰榜数据
     isRankingData: false,
@@ -22,6 +22,7 @@ Page({
   },
   onLoad() {
     this.fetchMusicBanner()
+    this.fetchRecommendSongs()
   },
   // 网络请求的方法封装
   async fetchMusicBanner() {
@@ -36,5 +37,16 @@ Page({
     const res = await querySelectThrottle(".banner-image")
     const bannerHeight = res[0].height
     this.setData({ bannerHeight })
-  }
+  },
+  onRecommendMoreClick() {
+    wx.navigateTo({
+      url: '/pages/detail-song/detail-song?type=recommend',
+    })
+  },
+  async fetchRecommendSongs() {
+    const res = await getPlaylistDetail(3778678)
+    const playlist = res.playlist
+    const recommendSongs = playlist.tracks.slice(0, 6)
+    this.setData({ recommendSongs })
+  },
 })
