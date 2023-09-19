@@ -1,4 +1,5 @@
 <!--pages/music-player/music-player.wxml-->
+<wxs src="/utils/format.wxs" module="fmt"></wxs>
 <!-- 1.背景展示 -->
 <image class="bg-img" src="{{currentSong.al.picUrl}}" mode="aspectFill" alt="" />
 <view class="bg-cover"></view>
@@ -18,19 +19,28 @@
   <!-- 歌曲 -->
   <swiper-item class="music">
     <view class="album">
-      封面图片
+      <image class="image" src="{{currentSong.al.picUrl}}" mode="widthFix" />
     </view>
     <view class="info">
-      歌曲信息
+      <view class="name">{{currentSong.name}}</view>
+      <view class="singer">{{currentSong.ar[0].name}}</view>
     </view>
     <view class="lyric">
       一句歌词
     </view>
     <view class="progress">
-      歌曲进度和时长
+      <slider block-size="12" class="slider" value="{{sliderValue}}" bindchange="onSliderChange" />
+      <view class="time">
+        <view class="current">{{fmt.formatTime(currentTime)}}</view>
+        <view class="duration">{{fmt.formatTime(durationTime)}}</view>
+      </view>
     </view>
-    <view class="control">
-      歌曲的控制台
+    <view class="controls">
+      <image class="btn mode" src="/assets/images/player/play_order.png" mode="widthFix" />
+      <image class="btn prev" src="/assets/images/player/play_prev.png" mode="widthFix" />
+      <image class="btn play" src="/assets/images/player/play_pause.png" mode="widthFix" />
+      <image class="btn next" src="/assets/images/player/play_next.png" mode="widthFix" />
+      <image class="btn list" src="/assets/images/player/play_list.png" mode="widthFix" />
     </view>
   </swiper-item>
   <!-- 歌词 -->
