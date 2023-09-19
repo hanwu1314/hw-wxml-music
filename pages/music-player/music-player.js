@@ -13,6 +13,7 @@ Page({
     /**当前页 */
     currentPage: 0,
     contentHeight: 0,
+    pageTitles: ["歌曲", "歌词"]
   },
   onLoad(options) {
     this.setData({
@@ -34,5 +35,9 @@ Page({
   // 事件监听
   onSwiperChange(event) {
     this.setData({ currentPage: event.detail.current })
+  },
+  onNavTabItemTap(event) {
+    const index = event.currentTarget.dataset.index
+    this.setData({ currentPage: index })
   }
 })
