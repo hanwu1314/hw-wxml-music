@@ -1,6 +1,7 @@
 // pages/main-music/main-music.js
 import { getMusicBanner, getSongMenuList } from "../../services/music"
 import recommendStore from "../../store/recommendStore"
+import playerStore from "../../store/playerStore"
 import querySelect from "../../utils/query-select"
 import rankingStore, { rankingsMap } from "../../store/rankingStore"
 import { throttle } from 'underscore'
@@ -66,38 +67,23 @@ Page({
       url: '/pages/detail-song/detail-song?type=recommend',
     })
   },
-  // async fetchRecommendSongs() {
-  //   const res = await getPlaylistDetail(3778678)
-  //   const playlist = res.playlist
-  //   const recommendSongs = playlist.tracks.slice(0, 6)
-  //   this.setData({ recommendSongs })
-  // },
-
   // 从store中获取数据
   handleRecommendSongs(value) {
     if (!value.tracks) return
     this.setData({ isRankingData: true })
     this.setData({ recommendSongs: value.tracks.slice(0, 6) })
   },
-  // handleNewRanking(value) {
-  //   const newRankingInfos = { ...this.data.rankingInfos, newRanking: value }
-  //   this.setData({ rankingInfos: newRankingInfos })
-  // },
-  // handleOriginRanking(value) {
-  //   const newRankingInfos = { ...this.data.rankingInfos, originRanking: value }
-  //   this.setData({ rankingInfos: newRankingInfos })
-  // },
-  // handleUpRanking(value) {
-  //   const newRankingInfos = { ...this.data.rankingInfos, upRanking: value }
-  //   this.setData({ rankingInfos: newRankingInfos })
-  // },
   getRankingHanlder(ranking) {
     return value => {
       const newRankingInfos = { ...this.data.rankingInfos, [ranking]: value }
       this.setData({ rankingInfos: newRankingInfos })
     }
   },
-
+  onSongItemTap(event) {
+    const index = event.currentTarget.dataset.index
+    playerStore.setState("playSongList", this.data.recommendSongs)
+    playerStore.setState("playSongIndex", index)
+  },
   /**卸载 */
   onUnload() {
     recommendStore.offState("recommendSongs", this.handleRecommendSongs)

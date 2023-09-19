@@ -14,7 +14,7 @@
   <area-header title="热门歌曲" bind:moreclick="onRecommendMoreClick"></area-header>
   <view class="list">
     <block wx:for="{{recommendSongs}}" wx:key="id">
-      <song-item-v1 itemData="{{item}}" />
+      <song-item-v1 itemData="{{item}}" data-index="{{index}}" bind:tap="onSongItemTap" />
     </block>
   </view>
 </view>

@@ -17,5 +17,10 @@ Component({
     attached() {
       this.setData({ statusHeight: app.globalData.statusHeight + 10 })
     }
+  },
+  methods: {
+    onLeftClick() {
+      this.triggerEvent("leftclick")
+    }
   }
 })

@@ -46,11 +46,20 @@
 .music .album .image {
   width: 100%;
   border-radius: 20rpx;
+  max-height: 373px;
 }
 
 .music .album .image.circle {
   border-radius: 50%;
   animation: rotate 8s linear infinite;
+}
+
+.music .album .image.circle.play {
+  animation-play-state: play;
+}
+
+.music .album .image.circle.pause {
+  animation-play-state: paused;
 }
 
 @keyframes rotate {
@@ -135,6 +144,6 @@
 }
 
 .lyric-list .item.active {
-  color: skyblue;
+  color: #3FBCE9;
   font-size: 36rpx;
 }
