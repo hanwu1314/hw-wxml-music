@@ -26,7 +26,7 @@
       <view class="singer">{{currentSong.ar[0].name}}</view>
     </view>
     <view class="lyric">
-      一句歌词
+      {{currentLyricText}}
     </view>
     <view class="progress">
       <slider block-size="12" class="slider" value="{{sliderValue}}" bindchange="onSliderChange" />
@@ -38,7 +38,7 @@
     <view class="controls">
       <image class="btn mode" src="/assets/images/player/play_order.png" mode="widthFix" />
       <image class="btn prev" src="/assets/images/player/play_prev.png" mode="widthFix" />
-      <image class="btn play" src="/assets/images/player/play_pause.png" mode="widthFix" />
+      <image class="btn play" src="/assets/images/player/play_{{isPlaying ? 'pause' : 'resume'}}.png" mode="widthFix" bindtap="onPlayOrPauseTap" />
       <image class="btn next" src="/assets/images/player/play_next.png" mode="widthFix" />
       <image class="btn list" src="/assets/images/player/play_list.png" mode="widthFix" />
     </view>
