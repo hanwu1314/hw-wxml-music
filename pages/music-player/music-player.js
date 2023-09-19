@@ -1,12 +1,15 @@
 // pages/music-player/music-player.js
 import { getSongDetail, getSongLyric } from "../../services/player"
+
+const app = getApp()
+
 Page({
   data: {
     id: 0,
     /**当前歌曲 */
     currentSong: {},
     /**歌词 */
-    lrcString: ""
+    lrcString: "",
   },
   onLoad(options) {
     const id = options.id

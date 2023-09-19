@@ -1,0 +1,38 @@
+/* components/nav-bar/nav-bar.wxss */
+/* 自定义导航栏 */
+.nav {
+  display: flex;
+  color: #fff;
+}
+
+.nav .left,
+.nav .right {
+  width: 120rpx;
+}
+
+.nav .center {
+  flex: 1;
+}
+
+.nav .left,
+.nav .right,
+.nav .center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 控制插槽默认内容显示 */
+.default {
+  display: none;
+}
+
+.slot:empty+.default {
+  display: block;
+}
+
+.left .icon {
+  width: 40rpx;
+  height: 40rpx;
+  vertical-align: bottom;
+}
