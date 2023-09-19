@@ -14,3 +14,17 @@
   backdrop-filter: blur(20px);
 }
 
+/* 导航栏的center */
+.tabs {
+  display: flex;
+  font-size: 28rpx;
+  color: #aaa;
+}
+
+.tabs .divider {
+  margin: 0 8px;
+}
+
+.tabs .active {
+  color: #fff;
+}

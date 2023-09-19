@@ -10,8 +10,14 @@ Page({
     currentSong: {},
     /**歌词 */
     lrcString: "",
+    /**当前页 */
+    currentPage: 0,
+    contentHeight: 0,
   },
   onLoad(options) {
+    this.setData({
+      contentHeight: app.globalData.contentHeight
+    })
     const id = options.id
     this.setData({ id })
 
@@ -24,5 +30,9 @@ Page({
       this.setData({ lrcString: res.lrc })
     })
 
+  },
+  // 事件监听
+  onSwiperChange(event) {
+    this.setData({ currentPage: event.detail.current })
   }
 })
