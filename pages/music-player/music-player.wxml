@@ -18,14 +18,14 @@
 <swiper bindchange="onSwiperChange" style="height:{{contentHeight}}px" current="{{currentPage}}">
   <!-- 歌曲 -->
   <swiper-item class="music">
-    <view class="album">
-      <image class="image" src="{{currentSong.al.picUrl}}" mode="widthFix" />
+    <view class="album" bind:tap="onAlbumClick">
+      <image class="image {{albumCircle ? 'circle':''}}" src="{{currentSong.al.picUrl}}" mode="widthFix" />
     </view>
     <view class="info">
       <view class="name">{{currentSong.name}}</view>
       <view class="singer">{{currentSong.ar[0].name}}</view>
     </view>
-    <view class="lyric" bind:tap="onLyricOnclick">
+    <view class="lyric" bind:tap="onLyricClick">
       {{currentLyricText}}
     </view>
     <view class="progress">

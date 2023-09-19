@@ -36,9 +36,10 @@ Page({
     currentLyricText: "",
     /**当前歌词索引 */
     currentLyricIndex: -1,
-
     /**歌词滚动位置 */
     lyricScrollTop: 400,
+    /**图片样式*/
+    albumCircle: false,
   },
   onLoad(options) {
     this.setData({
@@ -140,7 +141,13 @@ Page({
     }
   },
   /**监听单行歌词的点击 */
-  onLyricOnclick() {
+  onLyricClick() {
     this.setData({ currentPage: 1 })
+  },
+  /**监听歌曲图片的点击 */
+  onAlbumClick() {
+    const albumCircle = !this.data.albumCircle
+    console.log(albumCircle);
+    this.setData({ albumCircle })
   }
 })

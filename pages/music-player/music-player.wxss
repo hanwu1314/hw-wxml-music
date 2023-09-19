@@ -48,6 +48,22 @@
   border-radius: 20rpx;
 }
 
+.music .album .image.circle {
+  border-radius: 50%;
+  animation: rotate 8s linear infinite;
+}
+
+@keyframes rotate {
+
+  0% {
+    transform: rotateZ(0deg);
+  }
+
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
 .music .info .name {
   font-size: 48rpx;
   font-weight: 700;
