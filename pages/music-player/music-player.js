@@ -15,17 +15,30 @@ Page({
     lyricInfos: "",
     /**当前页 */
     currentPage: 0,
+    /**内容高度 */
     contentHeight: 0,
+    /**页面标题 */
     pageTitles: ["歌曲", "歌词"],
 
+    /**当前时长 */
     currentTime: 0,
+    /**总时长 */
     durationTime: 0,
+    /**滑块值 */
     sliderValue: 0,
+    /**滑块是否发生改变 */
     isSliderChanging: false,
+    /**是否等待 */
     isWaiting: false,
+    /**是否播放 */
     isPlaying: true,
+    /**当前歌词文本 */
     currentLyricText: "",
-    currentLyricIndex: -1
+    /**当前歌词索引 */
+    currentLyricIndex: -1,
+
+    /**歌词滚动位置 */
+    lyricScrollTop: 400,
   },
   onLoad(options) {
     this.setData({
@@ -67,10 +80,13 @@ Page({
           break
         }
       }
-      console.log(index, this.data.lyricInfos[index].text);
       if (index === this.data.currentLyricIndex) return
       const currentLyricText = this.data.lyricInfos[index].text
-      this.setData({ currentLyricText, currentLyricIndex: index })
+      this.setData({
+        currentLyricText,
+        currentLyricIndex: index,
+        lyricScrollTop: 35 * index //改变歌词滚动页面的位置
+      })
     })
     audioContext.onWaiting(() => {
       audioContext.pause()
@@ -88,9 +104,11 @@ Page({
     })
   },
   // 事件监听
+  /**监听滑动页面切换 */
   onSwiperChange(event) {
     this.setData({ currentPage: event.detail.current })
   },
+  /**监听点击标签栏切换 */
   onNavTabItemTap(event) {
     const index = event.currentTarget.dataset.index
     this.setData({ currentPage: index })
@@ -104,8 +122,14 @@ Page({
     const value = event.detail.value
     const currentTime = value / 100 * this.data.durationTime
     audioContext.seek(currentTime / 1000)
-    this.setData({ currentTime, isSliderChanging: false, sliderValue: value })
+    this.setData({
+      currentTime,
+      isSliderChanging: false,
+      sliderValue: value,
+      isPlaying: true
+    })
   },
+  /**监听播放暂停按钮的点击 */
   onPlayOrPauseTap() {
     if (!audioContext.paused) {
       audioContext.pause()
@@ -114,5 +138,9 @@ Page({
       audioContext.play()
       this.setData({ isPlaying: true })
     }
+  },
+  /**监听单行歌词的点击 */
+  onLyricOnclick() {
+    this.setData({ currentPage: 1 })
   }
 })

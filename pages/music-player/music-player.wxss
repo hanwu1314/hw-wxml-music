@@ -100,3 +100,25 @@
   width: 140rpx;
   height: 140rpx;
 }
+
+/* 歌词的样式 */
+.lyric-list {
+  color: #aaa;
+  font-size: 28rpx;
+  text-align: center;
+  height: 100%;
+}
+
+.lyric-list ::-webkit-scrollbar {
+  display: none;
+}
+
+.lyric-list .item {
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.lyric-list .item.active {
+  color: skyblue;
+  font-size: 36rpx;
+}

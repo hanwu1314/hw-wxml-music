@@ -25,7 +25,7 @@
       <view class="name">{{currentSong.name}}</view>
       <view class="singer">{{currentSong.ar[0].name}}</view>
     </view>
-    <view class="lyric">
+    <view class="lyric" bind:tap="onLyricOnclick">
       {{currentLyricText}}
     </view>
     <view class="progress">
@@ -44,5 +44,11 @@
     </view>
   </swiper-item>
   <!-- 歌词 -->
-  <swiper-item>歌词</swiper-item>
+  <swiper-item>
+    <scroll-view class="lyric-list" scroll-y scroll-with-animation scroll-top="{{lyricScrollTop}}">
+      <block wx:for="{{lyricInfos}}" wx:key="time">
+        <view class="item {{currentLyricIndex === index ? 'active' : ''}}" style="padding-top: {{index === 0 ? (contentHeight / 2 - 90) : 0}}px;padding-bottom: {{index === lyricInfos.length - 1 ? (contentHeight / 2 + 20) : 0}}px;">{{item.text}}</view>
+      </block>
+    </scroll-view>
+  </swiper-item>
 </swiper>
