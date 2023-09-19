@@ -28,7 +28,7 @@ Page({
     this.fetchSongMenuList()
     // this.fetchRecommendSongs()
     // 监听数据
-    recommendStore.onState("recommendSongs", this.handleRecommendSongs)
+    recommendStore.onState("recommendSongInfo", this.handleRecommendSongs)
 
     for (const key in rankingsMap) {
       rankingStore.onState(key, this.getRankingHanlder(key))
@@ -75,7 +75,8 @@ Page({
 
   // 从store中获取数据
   handleRecommendSongs(value) {
-    this.setData({ recommendSongs: value.slice(0, 6) })
+    if (!value.tracks) return
+    this.setData({ recommendSongs: value.tracks.slice(0, 6) })
   },
   // handleNewRanking(value) {
   //   const newRankingInfos = { ...this.data.rankingInfos, newRanking: value }

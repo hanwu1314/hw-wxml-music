@@ -12,12 +12,14 @@ Page({
   onLoad(options) {
     const type = options.type
     this.data.type = type
-    console.log("type: ", type);
 
     if (type == "ranking") {
       const key = options.key
       this.data.key = key
       rankingStore.onState(key, this.handleRanking)
+    } else if (type === "recommend") {
+      // this.data.key = "recommendSongInfo"
+      recommendStore.onState("recommendSongInfo", this.handleRanking)
     }
   },
   handleRanking(value) {
@@ -29,7 +31,8 @@ Page({
   onUnload() {
     if (this.data.type === "ranking") {
       rankingStore.offState(this.data.key, this.handleRanking)
-
+    } else if (this.data.type === "recommend") {
+      recommendStore.offState("recommendSongInfo", this.handleRanking)
     }
   }
 })
