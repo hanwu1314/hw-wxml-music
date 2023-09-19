@@ -1,8 +1,12 @@
 <!--pages/detail-song/detail-song.wxml-->
 <wxs src="/utils/format.wxs" module="fmt"></wxs>
-<view>
+<!-- 歌单头部 -->
+<view class="header" wx:if="{{type === 'menu' && songInfo.name}}">
+  <menu-header songInfo="{{songInfo}}" />
+</view>
+<view wx:else>
   <text class="title"> {{songInfo.name}}</text>
-  <text class="update">{{fmt.formatDate(songInfo.updateTime,"mm月dd日")}}更新</text>
+  <text class="update" wx:if="{{songInfo.updateTime}}">{{fmt.formatDate(songInfo.updateTime,"mm月dd日")}}更新</text>
 </view>
 <view class="song-list">
   <block wx:for="{{songInfo.tracks}}" wx:key="id">

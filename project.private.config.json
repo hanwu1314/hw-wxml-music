@@ -10,6 +10,13 @@
       "list": [
         {
           "name": "歌单详情",
+          "pathName": "pages/detail-song/detail-song",
+          "query": "type=menu&id=6847295283",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "歌单详情",
           "pathName": "pages/detail-menu/detail-menu",
           "query": "",
           "launchMode": "default",

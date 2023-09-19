@@ -76,6 +76,7 @@ Page({
   // 从store中获取数据
   handleRecommendSongs(value) {
     if (!value.tracks) return
+    this.setData({ isRankingData: true })
     this.setData({ recommendSongs: value.tracks.slice(0, 6) })
   },
   // handleNewRanking(value) {

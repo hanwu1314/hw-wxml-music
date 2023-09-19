@@ -1,6 +1,7 @@
 // pages/detail-song/detail-song.js
 import recommendStore from "../../store/recommendStore"
 import rankingStore from "../../store/rankingStore"
+import { getPlaylistDetail } from "../../services/music"
 Page({
   data: {
     type: "ranking",
@@ -11,7 +12,7 @@ Page({
   },
   onLoad(options) {
     const type = options.type
-    this.data.type = type
+    this.setData({ type })
 
     if (type == "ranking") {
       const key = options.key
@@ -20,7 +21,16 @@ Page({
     } else if (type === "recommend") {
       // this.data.key = "recommendSongInfo"
       recommendStore.onState("recommendSongInfo", this.handleRanking)
+    } else if (type === "menu") {
+      const id = options.id
+      this.data.id = id
+      this.fetchMenuSongInfo()
     }
+  },
+  async fetchMenuSongInfo() {
+    const res = await getPlaylistDetail(this.data.id)
+    console.log(res);
+    this.setData({ songInfo: res.playlist })
   },
   handleRanking(value) {
     this.setData({ songInfo: value })

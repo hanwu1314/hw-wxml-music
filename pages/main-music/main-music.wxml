@@ -22,7 +22,7 @@
 <menu-area title="热门歌单" menuList="{{hotMenuList}}" />
 <menu-area title="推荐歌单" menuList="{{recMenuList}}" />
 
-<view class="ranking">
+<view class="ranking" wx:if="{{isRankingData}}">
   <area-header title="巅峰榜" hasMore="{{false}}" />
   <view class="ranking-list">
     <block wx:for="{{rankingInfos}}" wx:key="id">
