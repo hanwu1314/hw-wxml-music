@@ -52,8 +52,10 @@ Page({
       contentHeight: app.globalData.contentHeight
     })
     const id = options.id
-    const throttleUpdateProgress = throttle(this.updateProgress, 500, { leading: false, trailing: false })
-    playerStore.dispatch("playMusicWithSongIdAction", id)
+    if (id) {
+      playerStore.dispatch("playMusicWithSongIdAction", id)
+    }
+    // const throttleUpdateProgress = throttle(this.updateProgress, 500, { leading: false, trailing: false })
 
     // -- 获取store共享数据
     playerStore.onStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler)
@@ -61,72 +63,16 @@ Page({
 
   },
   /**更新进度条 */
-  updateProgress() {
-    const sliderValue = this.data.currentTime / this.data.durationTime * 100
-    this.setData({
-      currentTime: audioContext.currentTime * 1000,
-      sliderValue
-    })
-  },
-  /**播放歌曲 */
-  // setupPlaySong(id) {
-  //   this.setData({ id })
-  //   // 根据id获取歌曲详情
-  //   getSongDetail(id).then(res => {
-  //     this.setData({
-  //       currentSong: res.songs[0],
-  //       durationTime: res.songs[0].dt
-  //     })
-  //   })
-  //   // 获取歌词信息
-  //   getSongLyric(id).then(res => {
-  //     const lrcString = res.lrc.lyric
-  //     const lyricInfos = parseLyric(lrcString)
-  //     this.setData({ lyricInfos })
-  //   })
-  //   // 播放当前歌曲
-  //   audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
-  //   audioContext.autoplay = true
-  //   // 监听播放进度
-  //   if (this.data.isFirstPlay) {
-  //     this.data.isFirstPlay = false
-  //     const throttleUpdateProgress = throttle(this.updateProgress, 500, { leading: false, trailing: false })
-  //     audioContext.onTimeUpdate(() => {
-  //       // 更新歌曲的进度
-  //       if (!this.data.isSliderChanging && !this.data.isWaiting) {
-  //         throttleUpdateProgress()
-  //       }
-  //       if (!this.data.lyricInfos.length) return
-  //       // 匹配正确的歌词 - 找到比当前时间大的减去1就是当前歌词
-  //       let index = -1
-  //       for (let i = 0; i < this.data.lyricInfos.length; i++) {
-  //         const info = this.data.lyricInfos[i]
-  //         if (info.time > audioContext.currentTime * 1000) {
-  //           index = i - 1
-  //           break
-  //         }
-  //       }
-  //       if (index === this.data.currentLyricIndex) return
-  //       const currentLyricText = this.data.lyricInfos[index]?.text
-  //       if (currentLyricText !== undefined)
-  //         this.setData({
-  //           currentLyricText,
-  //           currentLyricIndex: index,
-  //           lyricScrollTop: 35 * index //改变歌词滚动页面的位置
-  //         })
-  //     })
-  //     audioContext.onWaiting(() => {
-  //       audioContext.pause()
-  //     })
-  //     audioContext.onCanplay(() => {
-  //       audioContext.play()
-  //     })
-  //     audioContext.onEnded(() => {
-  //       if (audioContext.loop) return
-  //       this.changeNewSong()
-  //     })
-  //   }
-  // },
+  updateProgress: throttle(
+    function (currentTime) {
+      if (this.data.isSliderChanging) return;
+      // 1.记录当前的时间 2.修改sliderValue
+      const sliderValue = (currentTime / this.data.durationTime) * 100;
+      this.setData({ currentTime, sliderValue });
+    },
+    500,
+    { leading: false, trailing: false }
+  ),
   // 事件监听
   /**监听滑动页面切换 */
   onSwiperChange(event) {
@@ -236,7 +182,7 @@ Page({
     }
     if (currentTime !== undefined) {
       // 根据当前时间改变进度
-      this.updateProgress(currentTime);
+      this.updateProgress(currentTime * 1000);
     }
     if (lyricInfos) {
       this.setData({ lyricInfos });

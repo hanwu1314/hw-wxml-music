@@ -53,8 +53,8 @@ const playerStore = new HYEventStore({
         ctx.lyricInfos = lyricInfos
       })
       // 播放当前歌曲
-      // audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
-      // audioContext.autoplay = true
+      audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+      audioContext.autoplay = true
       // 监听播放进度
       if (ctx.isFirstPlay) {
         ctx.isFirstPlay = false
@@ -86,7 +86,8 @@ const playerStore = new HYEventStore({
         })
         audioContext.onEnded(() => {
           if (audioContext.loop) return
-          // TODO: 切换歌曲
+          // 切换下一首歌曲
+          this.dispatch("playNewMusicAction")
         })
       }
     },

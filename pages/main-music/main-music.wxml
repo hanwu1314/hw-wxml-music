@@ -30,3 +30,15 @@
     </block>
   </view>
 </view>
+<view class="play-bar-placeholder" wx:if="{{currentSong.name}}"></view>
+<view class="play-bar" wx:if="{{currentSong.name}}">
+  <view class="left" bind:tap="onPlayBarTap">
+    <image class="album {{isPlaying ? 'album-anim':''}} " src="{{currentSong.al.picUrl}}" mode="widthFix" />
+    <view class="name">{{currentSong.name}} - {{currentSong.ar[0].name}}</view>
+  </view>
+  <view class="right">
+    <image class="play" src="/assets/images/music/{{isPlaying?'pause':'play'}}_icon.png" bind:tap="onPlayOrPauseBtnTap" />
+    <image class="next" src="/assets/images/music/play_next.png" bind:tap="onPlayNextBtnTap"  />
+    <image class="icon" src="/assets/images/music/playlist_icon.png" />
+  </view>
+</view>

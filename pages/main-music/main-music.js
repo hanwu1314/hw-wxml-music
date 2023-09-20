@@ -22,7 +22,10 @@ Page({
     recMenuList: [],
     // 巅峰榜数据
     isRankingData: false,
-    rankingInfos: {}
+    rankingInfos: {},
+    /**当前播放歌曲 */
+    currentSong: {},
+    isPlaying: false,
   },
   onLoad() {
     this.fetchMusicBanner()
@@ -38,6 +41,7 @@ Page({
     recommendStore.dispatch("fetchRecommendSongsAction")
     rankingStore.dispatch("fetchRankingDataAction")
 
+    playerStore.onStates(["currentSong", "isPlaying"], this.handlePlayInfos)
 
   },
   // 网络请求的方法封装
@@ -73,6 +77,14 @@ Page({
     this.setData({ isRankingData: true })
     this.setData({ recommendSongs: value.tracks.slice(0, 6) })
   },
+  handlePlayInfos({ currentSong, isPlaying }) {
+    if (currentSong) {
+      this.setData({ currentSong })
+    }
+    if (isPlaying !== undefined) {
+      this.setData({ isPlaying })
+    }
+  },
   getRankingHanlder(ranking) {
     return value => {
       const newRankingInfos = { ...this.data.rankingInfos, [ranking]: value }
@@ -84,8 +96,23 @@ Page({
     playerStore.setState("playSongList", this.data.recommendSongs)
     playerStore.setState("playSongIndex", index)
   },
+  /**播放/暂停 */
+  onPlayOrPauseBtnTap() {
+    playerStore.dispatch("playMusicStatusAction")
+  },
+  /**跳转详情 */
+  onPlayBarTap() {
+    wx.navigateTo({
+      url: '/pages/music-player/music-player'
+    })
+  },
+  /**下一首 */
+  onPlayNextBtnTap() {
+    playerStore.dispatch("playNewMusicAction")
+  },
   /**卸载 */
   onUnload() {
+    playerStore.offStates(["currentSong", "isPlaying"], this.handlePlayInfos)
     recommendStore.offState("recommendSongs", this.handleRecommendSongs)
   }
 })
