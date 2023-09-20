@@ -1,66 +1,53 @@
 // pages/detail-search/detail-search.js
+import { getHotSearch, getHotDetailSearch, getSearch, getSearchSuggest } from "../../services/search"
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    hotSearch: [],
+    hotDetailSearch: [],
+    searchResult: {},
+    playSongList: [],
+    SearchSuggests: [],
+    keywords: ''
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onLoad() {
+    this.fetchHotSearch()
+    this.fetchHotDetailSearch()
+    this.fetchSearchSuggest()
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  onChange(event) {
+    const keywords = event.detail
+    this.data.keywords = keywords
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  onSearchTap() {
+    const keywords = this.data.keywords
+    if (keywords === '') return
+    this.fetchSearch(keywords)
+    wx.navigateTo({
+      url: '/pages/search-song/search-song',
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  onHotItemTap(event) {
+    const keywords = event.currentTarget.dataset.keywords
+    this.fetchSearch(keywords)
+    wx.navigateTo({
+      url: '/pages/search-song/search-song',
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
+  async fetchHotSearch() {
+    const res = await getHotSearch()
+    this.setData({ hotSearch: res.result.hots })
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
+  async fetchHotDetailSearch() {
+    const res = await getHotDetailSearch()
+    this.setData({ hotDetailSearch: res.data })
+    console.log(this.data.hotDetailSearch[0].searchWord);
   },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
+  async fetchSearch(keywords) {
+    const res = await getSearch(keywords)
+    this.setData({ playSongList: res.result.songs })
   },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+  async fetchSearchSuggest(keywords) {
+    const res = await getSearchSuggest(keywords)
+    this.setData({ SearchSuggests: res.result.allMatch })
+  },
 })

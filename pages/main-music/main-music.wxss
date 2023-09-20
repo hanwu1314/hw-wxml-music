@@ -92,9 +92,3 @@ page {
 .play-bar .left .album.album-anim {
   animation-play-state: running;
 }
-
-.song-list {
-  /* height: 100px; */
-  /* width: 100%; */
-  /* background-color: #fff; */
-}
