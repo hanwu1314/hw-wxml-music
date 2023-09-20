@@ -114,7 +114,7 @@ Page({
   /**跳转详情 */
   onPlayBarTap() {
     wx.navigateTo({
-      url: '/pages/music-player/music-player'
+      url: '/packagePlayer/pages/music-player/music-player'
     })
   },
   /**下一首 */
