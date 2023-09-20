@@ -71,8 +71,8 @@ Page({
       const sliderValue = (currentTime / this.data.durationTime) * 100;
       this.setData({ currentTime, sliderValue });
     },
-    500,
-    { leading: false, trailing: false }
+    800,
+    { leading: false }
   ),
   // 事件监听
   /**监听滑动页面切换 */
@@ -213,12 +213,9 @@ Page({
   onShadeTap() {
     this.setData({ isShowList: false })
   },
-  // onSongItemTap(e) {
-  //   playerStore.dispatch("playMusicWithSongIdAction", e.detail.id)
-  // },
   /**卸载 */
   onunload() {
-    playerStore.offStates(["playSongList", "playSongIndex"], this.getPlaySongListHandler)
+    playerStore.offStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler)
     playerStore.offStates(this.data.stateKeys, this.getPlayerInfosHandler)
   }
 })

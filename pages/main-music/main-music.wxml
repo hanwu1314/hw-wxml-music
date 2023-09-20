@@ -38,7 +38,8 @@
   </view>
   <view class="right">
     <image class="play" src="/assets/images/music/{{isPlaying?'pause':'play'}}_icon.png" bind:tap="onPlayOrPauseBtnTap" />
-    <image class="next" src="/assets/images/music/play_next.png" bind:tap="onPlayNextBtnTap"  />
-    <image class="icon" src="/assets/images/music/playlist_icon.png" />
+    <image class="next" src="/assets/images/music/play_next.png" bind:tap="onPlayNextBtnTap" />
+    <image class="icon" src="/assets/images/music/playlist_icon.png" bind:tap="onListBtnTap" />
   </view>
+  <song-list wx:if="{{isShowList}}" class="song-list" bind:shadeTap="onShadeTap" playSongList="{{playSongList}}" playSongIndex="{{playSongIndex}}"></song-list>
 </view>

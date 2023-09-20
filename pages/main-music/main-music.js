@@ -26,13 +26,13 @@ Page({
     /**当前播放歌曲 */
     currentSong: {},
     isPlaying: false,
+    isShowList: false,
+    playSongList: [],
+    playSongIndex: 0,
   },
   onLoad() {
     this.fetchMusicBanner()
     this.fetchSongMenuList()
-    // this.fetchRecommendSongs()
-    // 监听数据
-    recommendStore.onState("recommendSongInfo", this.handleRecommendSongs)
 
     for (const key in rankingsMap) {
       rankingStore.onState(key, this.getRankingHanlder(key))
@@ -42,7 +42,9 @@ Page({
     rankingStore.dispatch("fetchRankingDataAction")
 
     playerStore.onStates(["currentSong", "isPlaying"], this.handlePlayInfos)
-
+    playerStore.onStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler);
+    // 监听数据
+    recommendStore.onState("recommendSongInfo", this.handleRecommendSongs)
   },
   // 网络请求的方法封装
   async fetchMusicBanner() {
@@ -85,6 +87,15 @@ Page({
       this.setData({ isPlaying })
     }
   },
+  /**获取播放列表 */
+  getPlaySongInfosHandler({ playSongList, playSongIndex }) {
+    if (playSongList) {
+      this.setData({ playSongList })
+    }
+    if (playSongIndex !== undefined) {
+      this.setData({ playSongIndex })
+    }
+  },
   getRankingHanlder(ranking) {
     return value => {
       const newRankingInfos = { ...this.data.rankingInfos, [ranking]: value }
@@ -110,9 +121,16 @@ Page({
   onPlayNextBtnTap() {
     playerStore.dispatch("playNewMusicAction")
   },
+  onListBtnTap() {
+    this.setData({ isShowList: true })
+  },
+  onShadeTap() {
+    this.setData({ isShowList: false })
+  },
   /**卸载 */
   onUnload() {
     playerStore.offStates(["currentSong", "isPlaying"], this.handlePlayInfos)
+    playerStore.offStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler);
     recommendStore.offState("recommendSongs", this.handleRecommendSongs)
   }
 })

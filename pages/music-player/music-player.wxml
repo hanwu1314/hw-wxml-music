@@ -52,4 +52,4 @@
     </scroll-view>
   </swiper-item>
 </swiper>
-<song-list  class="song-list" bind:shadeTap="onShadeTap" wx:if="{{isShowList}}" playSongList="{{playSongList}}" playSongIndex="{{playSongIndex}}"></song-list>
+<song-list class="song-list" bind:shadeTap="onShadeTap" wx:if="{{isShowList}}" playSongList="{{playSongList}}" playSongIndex="{{playSongIndex}}"></song-list>
