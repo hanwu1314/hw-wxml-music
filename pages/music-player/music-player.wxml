@@ -40,7 +40,7 @@
       <image class="btn prev" src="/assets/images/player/play_prev.png" mode="widthFix" bindtap="onPrevBtnTap" />
       <image class="btn play" src="/assets/images/player/play_{{isPlaying ? 'pause' : 'resume'}}.png" mode="widthFix" bindtap="onPlayOrPauseTap" />
       <image class="btn next" src="/assets/images/player/play_next.png" mode="widthFix" bindtap="onNextBtnTap" />
-      <image class="btn list" src="/assets/images/player/play_list.png" mode="widthFix" />
+      <image class="btn list" bind:tap="onListBtnTap" src="/assets/images/player/play_list.png" mode="widthFix" />
     </view>
   </swiper-item>
   <!-- 歌词 -->
@@ -52,3 +52,4 @@
     </scroll-view>
   </swiper-item>
 </swiper>
+<song-list  class="song-list" bind:shadeTap="onShadeTap" wx:if="{{isShowList}}" playSongList="{{playSongList}}" playSongIndex="{{playSongIndex}}"></song-list>

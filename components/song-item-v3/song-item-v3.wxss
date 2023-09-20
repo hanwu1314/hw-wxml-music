@@ -1,0 +1,55 @@
+/* components/song-item-v3/song-item-v3.wxss */
+.item {
+  display: flex;
+  align-items: center;
+  margin: 36rpx 0 10rpx;
+}
+
+.item .image {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 5px;
+}
+
+.red {
+  color: red
+}
+
+.index {
+  font-size: 30rpx;
+  padding: 12rpx;
+  color: #000;
+}
+
+.info {
+  flex: 1;
+  margin-left: 16rpx;
+}
+
+
+
+.info .name {
+  font-size: 30rpx;
+}
+
+.info .source {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  margin-top: 10rpx;
+}
+
+.info .source .artistName {
+  color: #aaa;
+}
+
+.info.current,
+.info.current .artistName {
+  color: #3FBCE9;
+}
+
+.source .icon {
+  width: 38rpx;
+  height: 22rpx;
+  margin-right: 10rpx;
+}

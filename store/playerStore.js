@@ -132,6 +132,11 @@ const playerStore = new HYEventStore({
       const newSong = ctx.playSongList[index]
       this.dispatch("playMusicWithSongIdAction", newSong.id)
       ctx.playSongIndex = index
+    },
+    PlaySongIndexAction(ctx,playSongIndex){
+      if(playSongIndex){
+        ctx.playSongIndex = playSongIndex
+      }
     }
   }
 })

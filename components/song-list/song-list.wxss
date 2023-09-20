@@ -1,0 +1,35 @@
+/* components/song-list/song-list.wxss */
+.content {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.content .shade {
+  height: 500rpx;
+  width: 100%;
+  background-color: #777;
+  opacity: 0.6;
+}
+
+.content .main {
+  flex: 1;
+  background-color: #fff;
+  padding: 20rpx;
+  /* padding-top: 0; */
+}
+
+.content .main .noMore {
+  margin-top: 40rpx;
+  color: #aaa;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+/* .song-list {
+  padding: 20rpx;
+  padding-top: 0;
+} */

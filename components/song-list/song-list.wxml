@@ -1,0 +1,11 @@
+<!--components/song-list/song-list.wxml-->
+<view class="content">
+  <view class="shade" bind:tap="onshadeTap"></view>
+  <view class="main">
+    <block wx:for="{{playSongList}}" wx:key="id">
+      <song-item-v3 itemData="{{item}}" index="{{index}}" currentIndex="{{playSongIndex}}" bind:tap="onSongItemTap" data-id="{{item.id}}" data-index="{{index}}" />
+    </block>
+    <view class=" noMore">--没有更多了--
+    </view>
+  </view>
+</view>

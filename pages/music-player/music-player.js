@@ -45,7 +45,8 @@ Page({
     /**歌词滚动位置 */
     lyricScrollTop: 400,
     /**图片样式*/
-    albumCircle: false
+    albumCircle: false,
+    isShowList: false,
   },
   onLoad(options) {
     this.setData({
@@ -206,10 +207,18 @@ Page({
       });
     }
   },
+  onListBtnTap() {
+    this.setData({ isShowList: true })
+  },
+  onShadeTap() {
+    this.setData({ isShowList: false })
+  },
+  // onSongItemTap(e) {
+  //   playerStore.dispatch("playMusicWithSongIdAction", e.detail.id)
+  // },
   /**卸载 */
   onunload() {
-    playerStore.offState(["playSongList", "playSongIndex"], this.getPlaySongListHandler)
+    playerStore.offStates(["playSongList", "playSongIndex"], this.getPlaySongListHandler)
     playerStore.offStates(this.data.stateKeys, this.getPlayerInfosHandler)
   }
-
 })
