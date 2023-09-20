@@ -20,7 +20,6 @@ Page({
 
     // 3.获取到所有的数据之后, 调用一次setData
     Promise.all(allPromises).then(res => {
-      console.log(res);
       this.setData({ songMenus: res })
     })
   }

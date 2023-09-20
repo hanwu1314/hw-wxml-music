@@ -26,7 +26,6 @@ function formatTime(time) {
   // 1.获取时间
   var minute = Math.floor(time / 60)
   var second = Math.floor(time) % 60
-
   // 2.拼接字符串
   return padLeft(minute) + ":" + padLeft(second)
 }

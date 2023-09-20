@@ -7,17 +7,17 @@
     "pages/detail-search/detail-search",
     "components/area-header/area-header",
     "pages/detail-song/detail-song",
-    "pages/detail-menu/detail-menu"
+    "pages/detail-menu/detail-menu",
+    "pages/music-player/music-player"
   ],
   "window": {
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#8d5ec5",
-    "navigationBarTitleText": "HWMusic",
+    "navigationBarBackgroundColor": "#3FBCE9",
+    "navigationBarTitleText": "寒舞音乐",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/main-music/main-music",
         "text": "音乐",
         "iconPath": "assets/images/tabbar/music_normal.png",
@@ -25,7 +25,7 @@
       },
       {
         "pagePath": "pages/main-video/main-video",
-        "text": "音乐2",
+        "text": "MV",
         "iconPath": "assets/images/tabbar/video_normal.png",
         "selectedIconPath": "assets/images/tabbar/video_active.png"
       }

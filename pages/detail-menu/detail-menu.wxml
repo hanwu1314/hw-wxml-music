@@ -6,7 +6,7 @@
       <view class="list">
         <block wx:for="{{item.playlists}}" wx:key="id" wx:for-item="iten">
           <view class="iten">
-            <menu-item itemData="{{iten}}" />
+            <song-menu-item itemData="{{iten}}" />
           </view>
         </block>
       </view>

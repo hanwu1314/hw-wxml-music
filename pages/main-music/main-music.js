@@ -1,6 +1,7 @@
 // pages/main-music/main-music.js
 import { getMusicBanner, getSongMenuList } from "../../services/music"
 import recommendStore from "../../store/recommendStore"
+import playerStore from "../../store/playerStore"
 import querySelect from "../../utils/query-select"
 import rankingStore, { rankingsMap } from "../../store/rankingStore"
 import { throttle } from 'underscore'
@@ -21,14 +22,17 @@ Page({
     recMenuList: [],
     // 巅峰榜数据
     isRankingData: false,
-    rankingInfos: {}
+    rankingInfos: {},
+    /**当前播放歌曲 */
+    currentSong: {},
+    isPlaying: false,
+    isShowList: false,
+    playSongList: [],
+    playSongIndex: 0,
   },
   onLoad() {
     this.fetchMusicBanner()
     this.fetchSongMenuList()
-    // this.fetchRecommendSongs()
-    // 监听数据
-    recommendStore.onState("recommendSongs", this.handleRecommendSongs)
 
     for (const key in rankingsMap) {
       rankingStore.onState(key, this.getRankingHanlder(key))
@@ -37,7 +41,10 @@ Page({
     recommendStore.dispatch("fetchRecommendSongsAction")
     rankingStore.dispatch("fetchRankingDataAction")
 
-
+    playerStore.onStates(["currentSong", "isPlaying"], this.handlePlayInfos)
+    playerStore.onStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler);
+    // 监听数据
+    recommendStore.onState("recommendSongInfo", this.handleRecommendSongs)
   },
   // 网络请求的方法封装
   async fetchMusicBanner() {
@@ -66,38 +73,64 @@ Page({
       url: '/pages/detail-song/detail-song?type=recommend',
     })
   },
-  // async fetchRecommendSongs() {
-  //   const res = await getPlaylistDetail(3778678)
-  //   const playlist = res.playlist
-  //   const recommendSongs = playlist.tracks.slice(0, 6)
-  //   this.setData({ recommendSongs })
-  // },
-
   // 从store中获取数据
   handleRecommendSongs(value) {
-    this.setData({ recommendSongs: value.slice(0, 6) })
+    if (!value.tracks) return
+    this.setData({ isRankingData: true })
+    this.setData({ recommendSongs: value.tracks.slice(0, 6) })
   },
-  // handleNewRanking(value) {
-  //   const newRankingInfos = { ...this.data.rankingInfos, newRanking: value }
-  //   this.setData({ rankingInfos: newRankingInfos })
-  // },
-  // handleOriginRanking(value) {
-  //   const newRankingInfos = { ...this.data.rankingInfos, originRanking: value }
-  //   this.setData({ rankingInfos: newRankingInfos })
-  // },
-  // handleUpRanking(value) {
-  //   const newRankingInfos = { ...this.data.rankingInfos, upRanking: value }
-  //   this.setData({ rankingInfos: newRankingInfos })
-  // },
+  handlePlayInfos({ currentSong, isPlaying }) {
+    if (currentSong) {
+      this.setData({ currentSong })
+    }
+    if (isPlaying !== undefined) {
+      this.setData({ isPlaying })
+    }
+  },
+  /**获取播放列表 */
+  getPlaySongInfosHandler({ playSongList, playSongIndex }) {
+    if (playSongList) {
+      this.setData({ playSongList })
+    }
+    if (playSongIndex !== undefined) {
+      this.setData({ playSongIndex })
+    }
+  },
   getRankingHanlder(ranking) {
     return value => {
       const newRankingInfos = { ...this.data.rankingInfos, [ranking]: value }
       this.setData({ rankingInfos: newRankingInfos })
     }
   },
-
+  onSongItemTap(event) {
+    const index = event.currentTarget.dataset.index
+    playerStore.setState("playSongList", this.data.recommendSongs)
+    playerStore.setState("playSongIndex", index)
+  },
+  /**播放/暂停 */
+  onPlayOrPauseBtnTap() {
+    playerStore.dispatch("playMusicStatusAction")
+  },
+  /**跳转详情 */
+  onPlayBarTap() {
+    wx.navigateTo({
+      url: '/pages/music-player/music-player'
+    })
+  },
+  /**下一首 */
+  onPlayNextBtnTap() {
+    playerStore.dispatch("playNewMusicAction")
+  },
+  onListBtnTap() {
+    this.setData({ isShowList: true })
+  },
+  onShadeTap() {
+    this.setData({ isShowList: false })
+  },
   /**卸载 */
   onUnload() {
+    playerStore.offStates(["currentSong", "isPlaying"], this.handlePlayInfos)
+    playerStore.offStates(["playSongList", "playSongIndex"], this.getPlaySongInfosHandler);
     recommendStore.offState("recommendSongs", this.handleRecommendSongs)
   }
 })

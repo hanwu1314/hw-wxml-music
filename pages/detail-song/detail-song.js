@@ -1,6 +1,8 @@
 // pages/detail-song/detail-song.js
 import recommendStore from "../../store/recommendStore"
 import rankingStore from "../../store/rankingStore"
+import playerStore from "../../store/playerStore"
+import { getPlaylistDetail } from "../../services/music"
 Page({
   data: {
     type: "ranking",
@@ -11,14 +13,24 @@ Page({
   },
   onLoad(options) {
     const type = options.type
-    this.data.type = type
-    console.log("type: ", type);
+    this.setData({ type })
 
     if (type == "ranking") {
       const key = options.key
       this.data.key = key
       rankingStore.onState(key, this.handleRanking)
+    } else if (type === "recommend") {
+      // this.data.key = "recommendSongInfo"
+      recommendStore.onState("recommendSongInfo", this.handleRanking)
+    } else if (type === "menu") {
+      const id = options.id
+      this.data.id = id
+      this.fetchMenuSongInfo()
     }
+  },
+  async fetchMenuSongInfo() {
+    const res = await getPlaylistDetail(this.data.id)
+    this.setData({ songInfo: res.playlist })
   },
   handleRanking(value) {
     this.setData({ songInfo: value })
@@ -26,10 +38,14 @@ Page({
       title: value.name,
     })
   },
+  onSongItemTap() {
+    playerStore.setState("playSongList", this.data.songInfo.tracks)
+  },
   onUnload() {
     if (this.data.type === "ranking") {
       rankingStore.offState(this.data.key, this.handleRanking)
-
+    } else if (this.data.type === "recommend") {
+      recommendStore.offState("recommendSongInfo", this.handleRanking)
     }
   }
 })
