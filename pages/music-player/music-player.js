@@ -20,7 +20,6 @@ Page({
     contentHeight: 0,
     /**页面标题 */
     pageTitles: ["歌曲", "歌词"],
-
     /**当前时长 */
     currentTime: 0,
     /**总时长 */
@@ -46,7 +45,9 @@ Page({
     /**当前播放列表 */
     playSongList: [],
     /**是否是第一次播放 */
-    isFirstPlay: true
+    isFirstPlay: true,
+    /**播放模式： 0顺序播放 1单曲循环 2随机播放 */
+    playModeIndex: 0
   },
   onLoad(options) {
     this.setData({
@@ -104,12 +105,13 @@ Page({
           }
         }
         if (index === this.data.currentLyricIndex) return
-        const currentLyricText = this.data.lyricInfos[index].text
-        this.setData({
-          currentLyricText,
-          currentLyricIndex: index,
-          lyricScrollTop: 35 * index //改变歌词滚动页面的位置
-        })
+        const currentLyricText = this.data.lyricInfos[index]?.text
+        if (currentLyricText !== undefined)
+          this.setData({
+            currentLyricText,
+            currentLyricIndex: index,
+            lyricScrollTop: 35 * index //改变歌词滚动页面的位置
+          })
       })
       audioContext.onWaiting(() => {
         audioContext.pause()
@@ -118,6 +120,7 @@ Page({
         audioContext.play()
       })
       audioContext.onEnded(() => {
+        if (audioContext.loop) return
         this.changeNewSong()
       })
     }
@@ -133,7 +136,7 @@ Page({
     this.setData({ currentPage: index })
   },
   /**监听滑块滚动 */
-  onSliderChange(event) {
+  onSliderChange: throttle(function (event) {
     this.data.isWaiting = true
     setTimeout(() => {
       this.data.isWaiting = false
@@ -147,7 +150,7 @@ Page({
       sliderValue: value,
       isPlaying: true
     })
-  },
+  }, 200),
   /**监听播放暂停按钮的点击 */
   onPlayOrPauseTap() {
     if (!audioContext.paused) {
@@ -183,15 +186,37 @@ Page({
   changeNewSong(isNext = true) {
     const length = this.data.playSongList.length
     let index = this.data.playSongIndex
-    index = isNext ? index + 1 : index - 1
-    if (index === length) index = 0
-    if (index === -1) index = length - 1
+
+    switch (this.data.playModeIndex) {
+      case 0:
+      case 1:
+        index = isNext ? index + 1 : index - 1
+        if (index === length) index = 0
+        if (index === -1) index = length - 1
+        break
+      case 2:
+        index = Math.floor(Math.random() * length)
+        break
+    }
     const newSong = this.data.playSongList[index]
     // 数据初始化
     this.setData({ currentSong: {}, sliderValue: 0, currentTime: 0, durationTime: 0 })
     this.setupPlaySong(newSong.id)
     // 保存最新的索引值--保存到共享数据中
     playerStore.setState("playSongIndex", index)
+  },
+  onModeBtnTap() {
+    let playModeIndex = this.data.playModeIndex
+    playModeIndex = playModeIndex + 1
+    if (playModeIndex === 3) {
+      playModeIndex = 0
+    }
+    if (playModeIndex === 1) {
+      audioContext.loop = true
+    } else {
+      audioContext.loop = false
+    }
+    this.setData({ playModeIndex })
   },
   // store共享数据
   /**获取播放列表 */
