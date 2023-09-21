@@ -6,6 +6,7 @@
     <view class="source">
       <image class="icon" src="/assets/images/icons/sq_icon.png"></image>
       <text>{{itemData.ar[0].name}}</text>
+      <text wx:if="{{itemData.artists}}">{{itemData.artists[0].name}}</text>
     </view>
   </view>
 </view>

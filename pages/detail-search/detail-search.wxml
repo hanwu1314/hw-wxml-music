@@ -4,18 +4,25 @@
   <view slot="action" bind:tap="onSearchTap">搜索</view>
 </van-search>
 
-<view class="suggest">
-  <block wx:for="{{hotDetailSearch}}" wx:key="*this">
-    <view class="text" bind:tap="onHotItemTap" data-keywords="{{item.searchWord}}">{{item.searchWord}}</view>
-  </block>
-</view>
+<block wx:if="{{playSongList.length === 0}}">
+  <view class="suggest">
+    <block wx:for="{{hotDetailSearch}}" wx:key="score">
+      <view class="text" bind:tap="onHotItemTap" data-keywords="{{item.searchWord}}">{{item.searchWord}}</view>
+    </block>
+  </view>
 
-<area-header title="{{'热门搜索'}}" hasMore="{{false}}"></area-header>
-<view class="content">
-  <block wx:for="{{hotSearch}}" wx:key="{{first}}">
-    <view class="item" bind:tap="onHotItemTap" data-keywords="{{item.first}}">
-      <text class="{{index < 3 ? 'red' :''}}"> {{index}}</text>
-      <text class="name">{{item.first}}</text>
-    </view>
+  <area-header title="{{'热门搜索'}}" hasMore="{{false}}"></area-header>
+  <view class="content">
+    <block wx:for="{{hotSearch}}" wx:key="first">
+      <view class="item" bind:tap="onHotItemTap" data-keywords="{{item.first}}">
+        <text class="{{index < 3 ? 'red' :''}}"> {{index + 1}}</text>
+        <text class="name">{{item.first}}</text>
+      </view>
+    </block>
+  </view>
+</block>
+<view class="song-list">
+  <block wx:for="{{playSongList}}" wx:key="id">
+    <song-item-v2 itemData="{{item}}" index="{{index + 1}}" bind:tap="onSongItemTap" />
   </block>
 </view>

@@ -8,11 +8,9 @@
     "components/area-header/area-header",
     "pages/detail-song/detail-song",
     "pages/detail-menu/detail-menu",
-    "pages/music-player/music-player",
-    "pages/search-song/search-song"
+    "pages/music-player/music-player"
   ],
-  "subPackages": [
-    {
+  "subPackages": [{
       "root": "packageVideo",
       "name": "video",
       "pages": [
@@ -43,8 +41,7 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/main-music/main-music",
         "text": "音乐",
         "iconPath": "assets/images/tabbar/music_normal.png",

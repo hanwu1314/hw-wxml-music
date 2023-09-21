@@ -1,10 +1,10 @@
 // pages/detail-search/detail-search.js
 import { getHotSearch, getHotDetailSearch, getSearch, getSearchSuggest } from "../../services/search"
+import playerStore from "../../store/playerStore"
 Page({
   data: {
     hotSearch: [],
     hotDetailSearch: [],
-    searchResult: {},
     playSongList: [],
     SearchSuggests: [],
     keywords: ''
@@ -22,16 +22,21 @@ Page({
     const keywords = this.data.keywords
     if (keywords === '') return
     this.fetchSearch(keywords)
-    wx.navigateTo({
-      url: '/pages/search-song/search-song',
-    })
+    // wx.navigateTo({
+    //   url: '/pages/search-song/search-song',
+    // })
   },
   onHotItemTap(event) {
     const keywords = event.currentTarget.dataset.keywords
     this.fetchSearch(keywords)
-    wx.navigateTo({
-      url: '/pages/search-song/search-song',
-    })
+    // wx.navigateTo({
+    //   url: '/pages/search-song/search-song',
+    // })
+  },
+  onSongItemTap(event) {
+    const index = event.currentTarget.dataset.index
+    playerStore.setState("playSongList", this.data.playSongList)
+    playerStore.setState("playSongIndex", index)
   },
   async fetchHotSearch() {
     const res = await getHotSearch()
@@ -40,7 +45,6 @@ Page({
   async fetchHotDetailSearch() {
     const res = await getHotDetailSearch()
     this.setData({ hotDetailSearch: res.data })
-    console.log(this.data.hotDetailSearch[0].searchWord);
   },
   async fetchSearch(keywords) {
     const res = await getSearch(keywords)
