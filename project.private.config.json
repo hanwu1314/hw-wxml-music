@@ -9,9 +9,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "搜索页面",
-          "pathName": "pages/detail-search/detail-search",
-          "query": "",
+          "name": "视频详情",
+          "pathName": "packageVideo/pages/detail-video/detail-video",
+          "query": "id=14636451",
           "launchMode": "default",
           "scene": null
         },

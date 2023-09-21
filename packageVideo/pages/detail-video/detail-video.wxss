@@ -34,7 +34,7 @@ page {
 }
 
 .content {
-  height: calc(100% - 225px);
+  height: calc(100% - 660rpx);
   padding-bottom: 10px;
 }
 

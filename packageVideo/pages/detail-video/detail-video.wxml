@@ -10,7 +10,7 @@
   <view class="playCount"><text>{{fmt.formatCount(mvInfo.playCount)}}次播放 - </text><text>{{mvInfo.publishTime}}</text></view>
 </view>
 
-<scroll-view class="content" scroll-y>
+<view class="content">
   <view class="similarity-video">
     <view class="title">推荐视频</view>
     <block wx:for="{{similarityVideo}}" wx:key="id">
@@ -27,4 +27,5 @@
         </view>
       </view>
     </block>
-</scroll-view>
+  </view>
+</view>
